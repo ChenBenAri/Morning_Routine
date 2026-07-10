@@ -1,0 +1,43 @@
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding:
+    calc(1.25rem + env(safe-area-inset-top))
+    1rem
+    calc(1.5rem + env(safe-area-inset-bottom));
+}
+
+.app-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logo-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.progress {
+  text-align: center;
+  margin: 0.75rem 0 1rem;
+}
+
+.progress-text {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.progress-day {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.progress-key {
+  display: none;
+}
