@@ -6,43 +6,42 @@
   max-width: 430px;
   margin: 0 auto;
   padding:
-    calc(0.5rem + env(safe-area-inset-top))
+    calc(0.35rem + env(safe-area-inset-top))
     0.85rem
-    calc(0.35rem + env(safe-area-inset-bottom));
+    calc(0.25rem + env(safe-area-inset-bottom));
   overflow: hidden;
 }
 
 .progress {
   flex-shrink: 0;
   text-align: center;
-  padding: 0.5rem 0.5rem 0.65rem;
+  padding: 0.35rem 0.5rem 0.2rem;
 }
 
 .progress-text {
   margin: 0;
-  line-height: 1;
-  font-weight: 800;
-  color: #1a1a2e;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #444;
 }
 
 .progress-count,
 .progress-total {
-  font-size: clamp(2.8rem, 14vw, 3.6rem);
-  letter-spacing: -0.03em;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
 }
 
 .progress-slash {
-  font-size: clamp(2rem, 10vw, 2.6rem);
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: #888;
 }
 
 .progress-label {
-  margin: 0.35rem 0 0;
-  font-size: clamp(1.1rem, 5vw, 1.35rem);
-  font-weight: 700;
-  color: #333;
-  text-transform: lowercase;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
 }
 
 .progress-key {
@@ -52,7 +51,7 @@
 .reset-footer {
   flex-shrink: 0;
   text-align: center;
-  padding: 0.45rem 0.5rem 0.25rem;
-  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem 0.15rem;
+  font-size: 0.68rem;
   color: #999;
 }

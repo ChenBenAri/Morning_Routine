@@ -7,19 +7,19 @@ export default function App() {
 
   return (
     <div className="app">
+      <TaskList checks={checks} onToggle={toggleTask} />
+
       <section className="progress">
         <p className="progress-text">
           <span className="progress-count">{completedCount}</span>
           <span className="progress-slash"> / </span>
           <span className="progress-total">{total}</span>
+          <span className="progress-label"> completed today</span>
         </p>
-        <p className="progress-label">completed today</p>
         <p className="progress-key" aria-hidden="true">
           {dayKey}
         </p>
       </section>
-
-      <TaskList checks={checks} onToggle={toggleTask} />
 
       <footer className="reset-footer">
         Resets daily at 3:00 AM Israel time
