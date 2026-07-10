@@ -8,7 +8,11 @@ export default function App() {
   return (
     <div className="app">
       <div className="app-logo" aria-hidden="true">
-        <img src="/icons/icon.svg" alt="" className="logo-image" />
+        <img
+          src={`${import.meta.env.BASE_URL}icons/icon.svg`}
+          alt=""
+          className="logo-image"
+        />
       </div>
 
       <section className="progress">
