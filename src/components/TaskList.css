@@ -2,7 +2,15 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+.task-list li {
+  flex: 1;
+  display: flex;
+  min-height: 0;
 }

@@ -7,14 +7,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <div className="app-logo" aria-hidden="true">
-        <img
-          src={`${import.meta.env.BASE_URL}icons/icon-192.png`}
-          alt=""
-          className="logo-image"
-        />
-      </div>
-
       <section className="progress">
         <p className="progress-text">
           {completedCount} / {total} completed today
