@@ -9,15 +9,21 @@ export default function App() {
     <div className="app">
       <section className="progress">
         <p className="progress-text">
-          {completedCount} / {total} completed today
+          <span className="progress-count">{completedCount}</span>
+          <span className="progress-slash"> / </span>
+          <span className="progress-total">{total}</span>
         </p>
-        <p className="progress-day">Resets daily at 3:00 AM Israel time</p>
+        <p className="progress-label">completed today</p>
         <p className="progress-key" aria-hidden="true">
           {dayKey}
         </p>
       </section>
 
       <TaskList checks={checks} onToggle={toggleTask} />
+
+      <footer className="reset-footer">
+        Resets daily at 3:00 AM Israel time
+      </footer>
     </div>
   );
 }
