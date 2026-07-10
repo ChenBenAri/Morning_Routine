@@ -9,7 +9,7 @@ export default function App() {
     <div className="app">
       <div className="app-logo" aria-hidden="true">
         <img
-          src={`${import.meta.env.BASE_URL}icons/icon.svg`}
+          src={`${import.meta.env.BASE_URL}icons/icon-192.png`}
           alt=""
           className="logo-image"
         />
