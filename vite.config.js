@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.svg', 'icons/*.png'],
       manifest: {
-        name: 'Morning Routine',
-        short_name: 'Routine',
+        name: 'Daily',
+        short_name: 'Daily',
         description: 'Daily morning routine checklist',
         theme_color: '#ffffff',
         background_color: '#f8f9fa',
