@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="rainbow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="16%" stop-color="#FF9F43"/>
+      <stop offset="32%" stop-color="#FECA57"/>
+      <stop offset="48%" stop-color="#26DE81"/>
+      <stop offset="64%" stop-color="#45AAF2"/>
+      <stop offset="80%" stop-color="#A55EEA"/>
+      <stop offset="100%" stop-color="#FF6BD6"/>
+    </linearGradient>
+    <linearGradient id="arc1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#FF9F43"/>
+    </linearGradient>
+    <linearGradient id="arc2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FECA57"/>
+      <stop offset="100%" stop-color="#26DE81"/>
+    </linearGradient>
+    <linearGradient id="arc3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#45AAF2"/>
+      <stop offset="100%" stop-color="#A55EEA"/>
+    </linearGradient>
+    <linearGradient id="arc4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FD79A8"/>
+      <stop offset="100%" stop-color="#FF6BD6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#rainbow)"/>
+  <circle cx="256" cy="280" r="160" fill="none" stroke="url(#arc1)" stroke-width="28" stroke-linecap="round"
+    stroke-dasharray="320 180" transform="rotate(-30 256 280)"/>
+  <circle cx="256" cy="280" r="125" fill="none" stroke="url(#arc2)" stroke-width="24" stroke-linecap="round"
+    stroke-dasharray="260 140" transform="rotate(20 256 280)"/>
+  <circle cx="256" cy="280" r="90" fill="none" stroke="url(#arc3)" stroke-width="22" stroke-linecap="round"
+    stroke-dasharray="200 100" transform="rotate(-10 256 280)"/>
+  <circle cx="256" cy="280" r="55" fill="none" stroke="url(#arc4)" stroke-width="20" stroke-linecap="round"
+    stroke-dasharray="140 60" transform="rotate(40 256 280)"/>
+</svg>
