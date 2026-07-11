@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>גורי! 🍌 מיניונים באצטדיון</title>
+<meta name="description" content="קהל שלם של מיניונים צועק גורי! לחצו והצטרפו לשאגה 🍌">
+<meta property="og:title" content="גורי! 🍌 מיניונים באצטדיון">
+<meta property="og:description" content="קהל שלם של מיניונים קופץ וצועק גורי! לחצו לשמוע 🎉">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chenbenari.github.io/Morning_Routine/">
+<meta property="og:image" content="https://chenbenari.github.io/Morning_Routine/og-image.svg">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: "Segoe UI", "Heebo", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 60% 45% at 15% -8%, rgba(255,255,220,0.85) 0%, rgba(255,255,220,0) 60%),
+      radial-gradient(ellipse 60% 45% at 85% -8%, rgba(255,255,220,0.85) 0%, rgba(255,255,220,0) 60%),
+      radial-gradient(ellipse 90% 55% at 50% -15%, rgba(255,250,200,0.55) 0%, rgba(255,250,200,0) 65%),
+      linear-gradient(180deg, #7ec8f7 0%, #4aa8ef 35%, #2f86d6 70%, #1f66ad 100%);
+  }
+
+  /* ---------- start overlay ---------- */
+  #startOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    background: rgba(12, 40, 80, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: opacity 0.45s ease;
+  }
+  #startOverlay.hidden { opacity: 0; pointer-events: none; }
+
+  #startBtn {
+    font-family: inherit;
+    font-size: clamp(22px, 5.5vw, 34px);
+    font-weight: 800;
+    color: #3a2a00;
+    background: linear-gradient(180deg, #ffe95c, #ffc93c);
+    border: 4px solid #fff;
+    border-radius: 60px;
+    padding: 22px 42px;
+    cursor: pointer;
+    box-shadow: 0 10px 34px rgba(0,0,0,0.45), 0 0 0 8px rgba(255,233,92,0.25);
+    animation: btnPulse 1.6s ease-in-out infinite;
+  }
+  #startBtn:active { transform: scale(0.94); }
+  @keyframes btnPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+  #startHint {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(14px, 3.6vw, 19px);
+    text-align: center;
+    padding: 0 24px;
+  }
+  #loadNote {
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    min-height: 18px;
+  }
+
+  /* ---------- big title ---------- */
+  #bigTitle {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top));
+    left: 0; right: 0;
+    z-index: 20;
+    text-align: center;
+    font-size: clamp(40px, 11vw, 96px);
+    font-weight: 900;
+    color: #ffe95c;
+    -webkit-text-stroke: 2px #1f3f6e;
+    text-shadow: 0 5px 0 #1f3f6e, 0 10px 26px rgba(0,0,0,0.4);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  body.playing #bigTitle { opacity: 1; animation: titleBounce 2.2s ease-in-out infinite; }
+  @keyframes titleBounce {
+    0%, 100% { transform: scale(1) rotate(-1.5deg); }
+    12% { transform: scale(1.18) rotate(1.5deg); }
+    30% { transform: scale(1) rotate(-1deg); }
+  }
+
+  /* ---------- crowd ---------- */
+  #crowd {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+    z-index: 10;
+  }
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(var(--overlap, -18px));
+  }
+
+  /* ---------- minion ---------- */
+  .minion {
+    position: relative;
+    width: var(--s);
+    height: calc(var(--s) * 1.42);
+    flex: 0 0 auto;
+    margin: 0 calc(var(--s) * -0.02);
+    animation: crowdJump var(--jumpDur) ease-in-out var(--jumpDelay) infinite;
+    will-change: transform;
+  }
+  @keyframes crowdJump {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    12% { transform: translateY(2%) scaleY(0.94); }
+    38% { transform: translateY(calc(var(--s) * -0.42)) scaleY(1.04); }
+    62% { transform: translateY(0) scaleY(0.97); }
+  }
+
+  .mBody {
+    position: absolute;
+    inset: 0 6% 0 6%;
+    background: linear-gradient(180deg, #ffe25a 0%, #fcd028 60%, #f4be1d 100%);
+    border-radius: 46% 46% 34% 34% / 40% 40% 22% 22%;
+    box-shadow: inset calc(var(--s) * -0.06) calc(var(--s) * -0.05) calc(var(--s) * 0.12) rgba(160,110,0,0.35);
+    animation: headShake var(--shakeDur) ease-in-out var(--shakeDelay) infinite;
+    overflow: hidden;
+  }
+  @keyframes headShake {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  /* overalls */
+  .mBody::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 30%;
+    background: linear-gradient(180deg, #2f6fd0 0%, #2255a8 100%);
+    clip-path: polygon(0 42%, 18% 42%, 26% 0, 74% 0, 82% 42%, 100% 42%, 100% 100%, 0 100%);
+  }
+
+  /* goggle strap */
+  .strap {
+    position: absolute;
+    top: 26%;
+    left: 0; right: 0;
+    height: 9%;
+    background: #22232a;
+  }
+
+  .goggles {
+    position: absolute;
+    top: 15%;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+    z-index: 2;
+  }
+  .eye {
+    width: 38%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, #ffffff 58%, #f0f0f0 70%);
+    border: calc(var(--s) * 0.055) solid #9aa0a8;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .minion.oneEye .eye { width: 46%; }
+  .pupil {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 44%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle at 38% 35%, #8a5a2a 0%, #5d3a14 55%, #000 58%, #000 100%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: lookAround var(--lookDur) ease-in-out var(--lookDelay) infinite;
+  }
+  @keyframes lookAround {
+    0%, 100% { transform: translate(-50%, -50%); }
+    25% { transform: translate(-72%, -46%); }
+    55% { transform: translate(-30%, -54%); }
+    80% { transform: translate(-50%, -42%); }
+  }
+
+  .mouth {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    width: 42%;
+    height: 22%;
+    background: #571f14;
+    border-radius: 24% 24% 50% 50% / 30% 30% 70% 70%;
+    transform: translateX(-50%);
+    transform-origin: 50% 20%;
+    animation: shout var(--mouthDur) ease-in-out var(--mouthDelay) infinite;
+    z-index: 2;
+  }
+  .mouth::before { /* teeth */
+    content: "";
+    position: absolute;
+    top: 0; left: 12%; right: 12%;
+    height: 26%;
+    background: #fff;
+    border-radius: 0 0 40% 40%;
+  }
+  .mouth::after { /* tongue */
+    content: "";
+    position: absolute;
+    bottom: 6%; left: 26%; right: 26%;
+    height: 38%;
+    background: #b3402e;
+    border-radius: 50% 50% 45% 45%;
+  }
+  @keyframes shout {
+    0%, 100% { transform: translateX(-50%) scaleY(0.45); }
+    45% { transform: translateX(-50%) scaleY(1.15); }
+    60% { transform: translateX(-50%) scaleY(0.95); }
+  }
+
+  /* waving arms */
+  .arm {
+    position: absolute;
+    top: 42%;
+    width: 10%;
+    height: 42%;
+    background: #f4be1d;
+    border-radius: 40%;
+    z-index: 1;
+  }
+  .arm::after { /* glove */
+    content: "";
+    position: absolute;
+    top: -8%;
+    left: -22%;
+    width: 145%;
+    aspect-ratio: 1;
+    background: #22232a;
+    border-radius: 50%;
+  }
+  .arm.right {
+    right: -3%;
+    transform-origin: 50% 88%;
+    animation: waveR var(--waveDur) ease-in-out var(--waveDelay) infinite;
+  }
+  .arm.left {
+    left: -3%;
+    transform-origin: 50% 88%;
+    animation: waveL var(--waveDur) ease-in-out var(--waveDelay) infinite;
+  }
+  @keyframes waveR {
+    0%, 100% { transform: rotate(150deg); }
+    50% { transform: rotate(195deg); }
+  }
+  @keyframes waveL {
+    0%, 100% { transform: rotate(-150deg); }
+    50% { transform: rotate(-195deg); }
+  }
+
+  /* ---------- speech bubble ---------- */
+  .bubble {
+    position: absolute;
+    bottom: 103%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #fff;
+    color: #16457e;
+    font-weight: 900;
+    font-size: calc(var(--s) * 0.34);
+    padding: 0.2em 0.55em;
+    border-radius: 999px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 30;
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 0.32em solid transparent;
+    border-top-color: #fff;
+    border-bottom: 0;
+  }
+  .bubble.pop { animation: bubblePop 1.1s ease forwards; }
+  @keyframes bubblePop {
+    0% { transform: translateX(-50%) scale(0); opacity: 0; }
+    18% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+    30% { transform: translateX(-50%) scale(1); }
+    78% { transform: translateX(-50%) scale(1); opacity: 1; }
+    100% { transform: translateX(-50%) scale(0.6) translateY(-8px); opacity: 0; }
+  }
+
+  /* confetti-ish floodlight flicker on beat */
+  #flash {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    pointer-events: none;
+    background: radial-gradient(ellipse 100% 60% at 50% -10%, rgba(255,255,230,0.5), rgba(255,255,230,0) 70%);
+    opacity: 0;
+  }
+  #flash.beat { animation: flashBeat 0.6s ease-out; }
+  @keyframes flashBeat {
+    0% { opacity: 0.9; }
+    100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .minion, .mBody, .mouth, .arm, .pupil, #bigTitle { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="bigTitle">גורי!</div>
+<div id="flash"></div>
+<div id="crowd" aria-hidden="true"></div>
+
+<div id="startOverlay">
+  <button id="startBtn" type="button">🍌 לחצו לגורי מיניונים!</button>
+  <div id="startHint">קהל שלם של מיניונים מחכה לצעוק ביחד 📣</div>
+  <div id="loadNote"></div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const CHANT_EVERY_MS = 2200;   // new crowd beat every 2.2s
+  const VOICE_LAYERS = 7;        // simultaneous voices per beat (stadium effect)
+  const CLIP_COUNT = 12;
+  const clipUrl = (i) => `audio/gori-play-${i}.mp3`;
+
+  const rand = (min, max) => min + Math.random() * (max - min);
+  const randInt = (min, max) => Math.floor(rand(min, max + 1));
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+  // Exposed for the Playwright test.
+  const state = { started: false, beats: 0, audioMode: "none", clipsLoaded: 0 };
+  window.__goriState = state;
+
+  /* ================= crowd rendering ================= */
+  const crowd = document.getElementById("crowd");
+  const minions = [];
+
+  function buildCrowd() {
+    crowd.textContent = "";
+    minions.length = 0;
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    // Fairly large minions: ~50-68px wide, bigger in the front rows.
+    const rows = Math.max(4, Math.min(11, Math.round(h / 92)));
+    const frag = document.createDocumentFragment();
+
+    for (let r = 0; r < rows; r++) {
+      const depth = r / Math.max(1, rows - 1);          // 0 = back row, 1 = front row
+      const size = Math.round(50 + depth * 18);          // 50px back → 68px front
+      const cols = Math.min(24, Math.ceil(w / (size * 0.92)) + 1);
+      const row = document.createElement("div");
+      row.className = "row";
+      row.style.setProperty("--overlap", `${-size * 0.32}px`);
+      row.style.zIndex = String(r + 1);
+
+      for (let c = 0; c < cols; c++) {
+        const m = document.createElement("div");
+        const oneEye = Math.random() < 0.4;
+        m.className = "minion" + (oneEye ? " oneEye" : "");
+        m.style.setProperty("--s", `${Math.round(size * rand(0.94, 1.06))}px`);
+        m.style.setProperty("--jumpDur", `${rand(0.9, 1.5).toFixed(2)}s`);
+        m.style.setProperty("--jumpDelay", `${rand(0, 1.2).toFixed(2)}s`);
+        m.style.setProperty("--shakeDur", `${rand(0.5, 0.9).toFixed(2)}s`);
+        m.style.setProperty("--shakeDelay", `${rand(0, 0.8).toFixed(2)}s`);
+        m.style.setProperty("--mouthDur", `${rand(0.45, 0.8).toFixed(2)}s`);
+        m.style.setProperty("--mouthDelay", `${rand(0, 0.6).toFixed(2)}s`);
+        m.style.setProperty("--waveDur", `${rand(0.6, 1.1).toFixed(2)}s`);
+        m.style.setProperty("--waveDelay", `${rand(0, 0.9).toFixed(2)}s`);
+        m.style.setProperty("--lookDur", `${rand(2.5, 5).toFixed(2)}s`);
+        m.style.setProperty("--lookDelay", `${rand(0, 2).toFixed(2)}s`);
+
+        const eyes = oneEye
+          ? '<span class="eye"><span class="pupil"></span></span>'
+          : '<span class="eye"><span class="pupil"></span></span><span class="eye"><span class="pupil"></span></span>';
+
+        m.innerHTML =
+          '<span class="arm left"></span>' +
+          '<span class="arm right"></span>' +
+          '<span class="mBody"></span>' +
+          '<span class="strap"></span>' +
+          `<span class="goggles">${eyes}</span>` +
+          '<span class="mouth"></span>' +
+          '<span class="bubble">גורי!</span>';
+
+        row.appendChild(m);
+        minions.push(m);
+      }
+      frag.appendChild(row);
+    }
+    crowd.appendChild(frag);
+  }
+
+  buildCrowd();
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildCrowd, 250);
+  });
+
+  const flash = document.getElementById("flash");
+  const bubbleTexts = ["גורי!", "גוריי!", "גורייי!", "גורי! גורי!"];
+
+  function popBubbles() {
+    const count = Math.max(3, Math.round(minions.length * 0.08));
+    for (let i = 0; i < count; i++) {
+      const m = pick(minions);
+      const b = m.querySelector(".bubble");
+      if (!b) continue;
+      b.textContent = pick(bubbleTexts);
+      b.classList.remove("pop");
+      void b.offsetWidth; // restart animation
+      b.classList.add("pop");
+    }
+    flash.classList.remove("beat");
+    void flash.offsetWidth;
+    flash.classList.add("beat");
+  }
+
+  /* ================= audio engine ================= */
+  let audioCtx = null;
+  let masterGain = null;
+  let noiseGain = null;
+  let buffers = [];
+  let htmlPool = [];       // fallback pool of HTMLAudio elements
+  let chantTimer = null;
+
+  async function initWebAudio() {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) throw new Error("no AudioContext");
+    audioCtx = new Ctx();
+    await audioCtx.resume(); // must happen inside the user gesture
+
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 1;
+    masterGain.connect(audioCtx.destination);
+
+    const results = await Promise.allSettled(
+      Array.from({ length: CLIP_COUNT }, async (_, i) => {
+        const res = await fetch(clipUrl(i + 1));
+        if (!res.ok) throw new Error(`HTTP ${res.status} for clip ${i + 1}`);
+        const data = await res.arrayBuffer();
+        return await audioCtx.decodeAudioData(data);
+      })
+    );
+    buffers = results.filter(r => r.status === "fulfilled").map(r => r.value);
+    state.clipsLoaded = buffers.length;
+    if (buffers.length === 0) throw new Error("no clips decoded");
+
+    startCrowdNoise();
+    state.audioMode = "webaudio";
+  }
+
+  // Bandpass-filtered looping noise = stadium crowd rumble.
+  function startCrowdNoise() {
+    const seconds = 2.5;
+    const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * seconds, audioCtx.sampleRate);
+    const ch = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < ch.length; i++) {
+      // Brown-ish noise reads as a distant crowd better than pure white noise.
+      const white = Math.random() * 2 - 1;
+      last = (last + 0.02 * white) / 1.02;
+      ch[i] = last * 3.5;
+    }
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+
+    const bandpass = audioCtx.createBiquadFilter();
+    bandpass.type = "bandpass";
+    bandpass.frequency.value = 850;
+    bandpass.Q.value = 0.5;
+
+    noiseGain = audioCtx.createGain();
+    noiseGain.gain.value = 0.05;
+
+    src.connect(bandpass).connect(noiseGain).connect(masterGain);
+    src.start();
+  }
+
+  function chantBeatWebAudio() {
+    const now = audioCtx.currentTime;
+    for (let i = 0; i < VOICE_LAYERS; i++) {
+      const src = audioCtx.createBufferSource();
+      src.buffer = pick(buffers);
+      src.playbackRate.value = rand(0.97, 1.03);
+
+      const gain = audioCtx.createGain();
+      gain.gain.value = rand(0.65, 0.9);
+
+      let node = src;
+      if (audioCtx.createStereoPanner) {
+        const pan = audioCtx.createStereoPanner();
+        pan.pan.value = rand(-0.5, 0.5);
+        node = src.connect(pan);
+      }
+      node.connect(gain).connect(masterGain);
+      src.start(now + rand(0, 0.15)); // small random delay per voice
+    }
+    // brief crowd-noise swell on each shout
+    if (noiseGain) {
+      const g = noiseGain.gain;
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(g.value, now);
+      g.linearRampToValueAtTime(0.14, now + 0.18);
+      g.linearRampToValueAtTime(0.05, now + 1.4);
+    }
+  }
+
+  /* ---------- HTMLAudio fallback ---------- */
+  function initHtmlAudio() {
+    htmlPool = [];
+    for (let i = 1; i <= CLIP_COUNT; i++) {
+      for (let k = 0; k < 2; k++) {
+        const a = new Audio(clipUrl(i));
+        a.preload = "auto";
+        htmlPool.push(a);
+      }
+    }
+    state.audioMode = "htmlaudio";
+    state.clipsLoaded = CLIP_COUNT;
+  }
+
+  function chantBeatHtmlAudio() {
+    const layers = randInt(6, 8);
+    const free = htmlPool.filter(a => a.paused || a.ended);
+    for (let i = 0; i < layers; i++) {
+      const a = free.length ? free.splice(Math.floor(Math.random() * free.length), 1)[0] : pick(htmlPool);
+      setTimeout(() => {
+        try {
+          a.currentTime = 0;
+          a.volume = rand(0.65, 0.9);
+          a.playbackRate = rand(0.97, 1.03);
+          a.play().catch(() => {});
+        } catch (_) {}
+      }, i * 80); // 80ms stagger
+    }
+  }
+
+  /* ---------- beat loop ---------- */
+  function beat() {
+    state.beats++;
+    popBubbles();
+    if (state.audioMode === "webaudio") chantBeatWebAudio();
+    else if (state.audioMode === "htmlaudio") chantBeatHtmlAudio();
+  }
+
+  function startChanting() {
+    stopChanting();
+    beat();
+    chantTimer = setInterval(beat, CHANT_EVERY_MS);
+  }
+  function stopChanting() {
+    if (chantTimer) { clearInterval(chantTimer); chantTimer = null; }
+  }
+
+  /* ---------- tab visibility ---------- */
+  document.addEventListener("visibilitychange", () => {
+    if (!state.started) return;
+    if (document.hidden) {
+      stopChanting();
+      if (audioCtx && audioCtx.state === "running") audioCtx.suspend().catch(() => {});
+      htmlPool.forEach(a => { try { a.pause(); } catch (_) {} });
+    } else {
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      startChanting();
+    }
+  });
+
+  /* ---------- start button ---------- */
+  const overlay = document.getElementById("startOverlay");
+  const startBtn = document.getElementById("startBtn");
+  const loadNote = document.getElementById("loadNote");
+
+  startBtn.addEventListener("click", async () => {
+    if (state.started) return;
+    state.started = true;
+    startBtn.disabled = true;
+    loadNote.textContent = "טוען את הקהל… 🎙️";
+
+    try {
+      await initWebAudio();
+    } catch (err) {
+      console.warn("Web Audio failed, falling back to HTMLAudio:", err);
+      try { initHtmlAudio(); } catch (_) { state.audioMode = "none"; }
+    }
+
+    overlay.classList.add("hidden");
+    document.body.classList.add("playing");
+    startChanting();
+  });
+})();
+</script>
+</body>
+</html>

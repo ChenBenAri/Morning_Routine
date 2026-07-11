@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ec8f7"/>
+      <stop offset="0.6" stop-color="#3a95e0"/>
+      <stop offset="1" stop-color="#1f66ad"/>
+    </linearGradient>
+    <radialGradient id="light" cx="0.5" cy="0" r="0.9">
+      <stop offset="0" stop-color="#fffbe0" stop-opacity="0.85"/>
+      <stop offset="0.7" stop-color="#fffbe0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe25a"/>
+      <stop offset="1" stop-color="#f4be1d"/>
+    </linearGradient>
+    <g id="minion">
+      <rect x="-45" y="-70" width="90" height="140" rx="42" fill="url(#body)"/>
+      <path d="M -45 30 L -45 70 Q -45 70 0 70 Q 45 70 45 70 L 45 30 L 28 30 L 22 8 L -22 8 L -28 30 Z" fill="#2a62bd"/>
+      <rect x="-45" y="-42" width="90" height="13" fill="#22232a"/>
+      <circle cx="0" cy="-34" r="26" fill="#fff" stroke="#9aa0a8" stroke-width="8"/>
+      <circle cx="0" cy="-34" r="11" fill="#5d3a14"/>
+      <circle cx="0" cy="-34" r="5.5" fill="#000"/>
+      <circle cx="3.5" cy="-38" r="2.5" fill="#fff"/>
+      <ellipse cx="0" cy="8" rx="18" ry="14" fill="#571f14"/>
+      <path d="M -14 -2 Q 0 6 14 -2 L 14 2 Q 0 9 -14 2 Z" fill="#fff"/>
+    </g>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <rect width="1200" height="420" fill="url(#light)"/>
+
+  <!-- back row -->
+  <g opacity="0.85">
+    <use href="#minion" transform="translate(80,520) scale(0.85)"/>
+    <use href="#minion" transform="translate(230,540) scale(0.9) rotate(-6)"/>
+    <use href="#minion" transform="translate(380,515) scale(0.82) rotate(5)"/>
+    <use href="#minion" transform="translate(820,525) scale(0.88) rotate(-4)"/>
+    <use href="#minion" transform="translate(970,545) scale(0.84) rotate(6)"/>
+    <use href="#minion" transform="translate(1120,520) scale(0.9)"/>
+  </g>
+  <!-- front row -->
+  <use href="#minion" transform="translate(155,585) scale(1.1) rotate(4)"/>
+  <use href="#minion" transform="translate(310,600) scale(1.15) rotate(-5)"/>
+  <use href="#minion" transform="translate(600,608) scale(1.25)"/>
+  <use href="#minion" transform="translate(890,600) scale(1.15) rotate(5)"/>
+  <use href="#minion" transform="translate(1045,585) scale(1.1) rotate(-4)"/>
+
+  <!-- speech bubbles -->
+  <g font-family="Arial, sans-serif" font-weight="900" text-anchor="middle">
+    <g transform="translate(310,455)">
+      <rect x="-70" y="-38" width="140" height="56" rx="28" fill="#fff"/>
+      <path d="M -10 18 L 0 38 L 12 18 Z" fill="#fff"/>
+      <text y="4" font-size="34" fill="#16457e">גורי!</text>
+    </g>
+    <g transform="translate(895,450) rotate(4)">
+      <rect x="-80" y="-38" width="160" height="56" rx="28" fill="#fff"/>
+      <path d="M -10 18 L 0 38 L 12 18 Z" fill="#fff"/>
+      <text y="4" font-size="34" fill="#16457e">גוריי!</text>
+    </g>
+  </g>
+
+  <!-- title -->
+  <g text-anchor="middle" font-family="Arial, sans-serif" font-weight="900">
+    <text x="600" y="215" font-size="150" fill="#1f3f6e">גורי!</text>
+    <text x="600" y="205" font-size="150" fill="#ffe95c" stroke="#1f3f6e" stroke-width="5" paint-order="stroke">גורי!</text>
+    <text x="600" y="300" font-size="46" fill="#ffffff">🍌 קהל המיניונים צועק — לחצו לשמוע!</text>
+  </g>
+</svg>

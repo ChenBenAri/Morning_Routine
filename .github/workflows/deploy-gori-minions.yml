@@ -1,0 +1,67 @@
+name: Deploy Gori Minions to GitHub Pages
+
+on:
+  push:
+    branches: [main, claude/gori-minions-stadium-qkjznv]
+    paths:
+      - "gori-minions/**"
+      - ".github/workflows/deploy-gori-minions.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: gori-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The dev sandbox has no egress to TTS services, so the voice clips are
+      # synthesized here on the runner the first time and committed back.
+      - name: Generate voice clips (if missing)
+        id: gen
+        run: |
+          if [ -f gori-minions/audio/gori-play-12.mp3 ]; then
+            echo "generated=false" >> "$GITHUB_OUTPUT"
+            echo "Audio clips already present, skipping generation."
+          else
+            pip install --quiet edge-tts gtts mutagen
+            python gori-minions/generate_audio.py
+            echo "generated=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit generated audio back to the branch
+        if: steps.gen.outputs.generated == 'true'
+        continue-on-error: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gori-minions/audio
+          git commit -m "Add generated Gori voice clips [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: gori-minions
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
