@@ -2,9 +2,9 @@ export const TASKS = [
   {
     id: 'meditate',
     label: 'Meditation',
-    from: '#FFD4C8',
-    to: '#FFE8DC',
-    accent: '#D47858',
+    from: '#FFB0A8',
+    to: '#FFD4CC',
+    accent: '#D04038',
   },
   {
     id: 'sport',
@@ -16,15 +16,15 @@ export const TASKS = [
   {
     id: 'languages',
     label: 'Learn Languages',
-    from: '#FFE898',
-    to: '#FFF2C0',
-    accent: '#D49818',
+    from: '#FFE878',
+    to: '#FFF2A8',
+    accent: '#D4A800',
   },
   {
     id: 'dance',
     label: 'Dance',
-    from: '#FFA8A0',
-    to: '#FFD0C8',
-    accent: '#D85040',
+    from: '#E8B8FF',
+    to: '#F5D8FF',
+    accent: '#9040D0',
   },
 ];
