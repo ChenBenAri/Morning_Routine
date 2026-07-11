@@ -5,7 +5,7 @@
   gap: 0.85rem;
   flex: 1;
   width: 100%;
-  padding: 0 1.25rem 0 1.35rem;
+  padding: 0 1.25rem 0 20%;
   background: linear-gradient(135deg, var(--task-from) 0%, var(--task-to) 100%);
   border-radius: 14px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
