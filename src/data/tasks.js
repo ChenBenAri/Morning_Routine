@@ -1,5 +1,12 @@
 export const TASKS = [
   {
+    id: 'read',
+    label: 'Read a book',
+    from: '#D4F070',
+    to: '#E8F8A0',
+    accent: '#7AB020',
+  },
+  {
     id: 'meditate',
     label: 'Meditation',
     from: '#FFE878',
